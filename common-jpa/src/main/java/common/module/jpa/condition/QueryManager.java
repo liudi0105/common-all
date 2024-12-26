@@ -1,4 +1,7 @@
-package common.module.jpa;
+package common.module.jpa.condition;
+
+import common.module.jpa.AppPageResult;
+import common.module.jpa.SqlBuilder;
 
 import java.util.List;
 

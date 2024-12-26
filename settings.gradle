@@ -3,7 +3,7 @@ pluginManagement {
         maven { url "https://maven.aliyun.com/repository/public" }
     }
 }
-rootProject.name = 'common'
+rootProject.name = 'common-all'
 
 include "common-dependencies"
 include 'common-util'

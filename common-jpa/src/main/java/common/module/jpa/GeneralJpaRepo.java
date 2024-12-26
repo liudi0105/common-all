@@ -1,6 +1,8 @@
 package common.module.jpa;
 
 import common.module.dto.AppPageParam;
+import common.module.jpa.condition.ConditionBuilder;
+import common.module.jpa.condition.QueryBuilder;
 import common.module.util.model.SerializableFunction;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.repository.NoRepositoryBean;

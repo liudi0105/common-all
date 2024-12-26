@@ -1,5 +1,14 @@
 apply plugin:  'java-library'
 
+allprojects {
+    repositories {
+        maven { url "https://maven.aliyun.com/repository/public" }
+//        mavenCentral()
+    }
+
+    group = 'common.module'
+}
+
 dependencies {
     api platform(project(":common-dependencies"))
     annotationProcessor platform(project(":common-dependencies"))

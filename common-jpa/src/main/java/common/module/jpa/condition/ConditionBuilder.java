@@ -1,5 +1,6 @@
-package common.module.jpa;
+package common.module.jpa.condition;
 
+import common.module.jpa.AppCBConverter;
 import common.module.util.AppJsons;
 import common.module.util.AppReflections;
 import common.module.util.model.SerializableFunction;

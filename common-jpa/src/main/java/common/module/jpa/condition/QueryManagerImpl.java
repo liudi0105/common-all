@@ -1,5 +1,8 @@
-package common.module.jpa;
+package common.module.jpa.condition;
 
+import common.module.jpa.AppPageResult;
+import common.module.jpa.AppPages;
+import common.module.jpa.SqlBuilder;
 import common.module.util.AppJsons;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;

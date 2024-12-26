@@ -1,6 +1,7 @@
 package common.module.jpa;
 
 import common.module.jpa.baserepo.BaseJpaRepositoryImpl;
+import common.module.jpa.condition.QueryManager;
 import common.module.jpa.data.Converter;
 import jakarta.persistence.EntityManager;
 import org.apache.commons.compress.utils.Lists;

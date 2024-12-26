@@ -1,6 +1,5 @@
-package common.module.jpa.condition;
+package common.module.jpa;
 
-import common.module.jpa.AppCBConverter;
 import common.module.util.AppReflections;
 import common.module.util.model.SerializableFunction;
 import lombok.Getter;

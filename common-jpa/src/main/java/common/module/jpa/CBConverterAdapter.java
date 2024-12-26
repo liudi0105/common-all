@@ -1,6 +1,5 @@
-package common.module.jpa.condition;
+package common.module.jpa;
 
-import common.module.jpa.AppCBConverter;
 import common.module.util.errors.AppError;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;

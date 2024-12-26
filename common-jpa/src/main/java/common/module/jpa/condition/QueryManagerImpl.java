@@ -1,13 +1,25 @@
 package common.module.jpa.condition;
 
+import common.module.jpa.AppJpaEntity;
 import common.module.jpa.AppPageResult;
 import common.module.jpa.AppPages;
 import common.module.jpa.SqlBuilder;
+import common.module.jpa.condition.strategy.QueryBuilder;
 import common.module.util.AppJsons;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,6 +32,77 @@ public class QueryManagerImpl implements QueryManager {
 
     public QueryManagerImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+    public <E extends AppJpaEntity> PageImpl<E> queryPage(QueryBuilder<E> queryBuilder, Pageable pageable, Class<E> clazz) {
+        Wrapper<E> criteriaQuery = buildQuery(queryBuilder, clazz);
+
+        long l = countTotal(criteriaQuery.specification, clazz);
+
+        // 获取查询结果
+        List<E> result = applyPagination(criteriaQuery.criteriaQuery, criteriaQuery.root, criteriaQuery.criteriaBuilder, pageable);
+        return new PageImpl<E>(result, pageable, l);
+    }
+
+    private <E> List<E> applyPagination(CriteriaQuery<E> criteriaQuery, Root<E> root, CriteriaBuilder criteriaBuilder, Pageable pageable) {
+        TypedQuery<E> query = entityManager.createQuery(criteriaQuery);
+
+        // 设置分页
+        query.setFirstResult((int) pageable.getOffset());
+        query.setMaxResults(pageable.getPageSize());
+
+        // 执行查询并返回结果
+        return query.getResultList();
+    }
+
+    /**
+     * 计算总记录数
+     */
+    private <E> long countTotal(Specification<E> specification, Class<E> clazz) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> countQuery = criteriaBuilder.createQuery(Long.class);
+
+        Root<E> root = countQuery.from(clazz);
+
+        // 应用 Specification 生成的查询条件
+        Predicate predicate = specification.toPredicate(root, countQuery, criteriaBuilder);
+        countQuery.where(predicate);
+
+        countQuery.select(criteriaBuilder.count(root));  // 选择计数
+
+        // 执行查询并返回结果
+        return entityManager.createQuery(countQuery).getSingleResult();
+    }
+
+    public <E extends AppJpaEntity> List<E> query(QueryBuilder<E> queryBuilder, Class<E> clazz) {
+        CriteriaQuery<E> criteriaQuery = buildQuery(queryBuilder, clazz).getCriteriaQuery();
+        return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Getter
+    @AllArgsConstructor
+    static class Wrapper<E> {
+        private CriteriaQuery<E> criteriaQuery;
+        private Root<E> root;
+        private CriteriaBuilder criteriaBuilder;
+        private Specification<E> specification;
+    }
+
+    private <E> Wrapper<E> buildQuery(QueryBuilder<E> queryBuilder, Class<E> clazz) {
+        // 构建 Specification
+        Specification<E> specification = queryBuilder.toSpecification();
+
+        // 获取 CriteriaBuilder 和 CriteriaQuery
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<E> criteriaQuery = criteriaBuilder.createQuery(clazz);
+
+        // 根实体
+        Root<E> root = criteriaQuery.from(clazz);
+
+        // 将 Specification 应用到 CriteriaQuery 上
+        Predicate predicate = specification.toPredicate(root, criteriaQuery, criteriaBuilder);
+        criteriaQuery.where(predicate);
+        return new Wrapper<E>(criteriaQuery, root, criteriaBuilder, specification);
     }
 
     private Query createQuery(SqlBuilder oldSqlBuilder) {

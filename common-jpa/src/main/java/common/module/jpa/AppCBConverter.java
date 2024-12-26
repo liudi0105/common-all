@@ -1,7 +1,5 @@
 package common.module.jpa;
 
-import common.module.jpa.condition.ConditionBuilder;
-import common.module.jpa.condition.QueryBuilder;
 import common.module.util.AppReflections;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -11,7 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class AppCBConverter {
 
-    private static final Converter target = AppReflections.forName("common.module.jpa.condition.CBConverterAdapter");
+    private static final Converter target = AppReflections.forName("common.module.jpa.CBConverterAdapter");
 
     public static <E> Specification<E> toSpecification(ConditionBuilder<E> eConditionBuilder) {
         return target.toSpecification(eConditionBuilder);

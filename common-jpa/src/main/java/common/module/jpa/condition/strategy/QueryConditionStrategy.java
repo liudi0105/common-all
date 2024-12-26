@@ -1,4 +1,4 @@
-package common.module.jpa.condition.query;
+package common.module.jpa.condition.strategy;
 
 import jakarta.persistence.criteria.*;
 

@@ -1,6 +1,5 @@
-package common.module.jpa.condition.query.strategy;
+package common.module.jpa.condition.strategy;
 
-import common.module.jpa.condition.query.QueryConditionStrategy;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;

@@ -1,24 +1,22 @@
-package common.module.jpa.condition.query.strategy;
+package common.module.jpa.condition.strategy;
 
-import common.module.jpa.condition.query.QueryConditionStrategy;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
-/**
- * Strategy for the "IS NULL" condition
- */
-public class IsNullConditionStrategy<E> implements QueryConditionStrategy<E> {
+public class GreaterThanOrEqualConditionStrategy<E> implements QueryConditionStrategy<E> {
 
     private final String field;
+    private final Comparable<?> value;
 
-    public IsNullConditionStrategy(String field) {
+    public GreaterThanOrEqualConditionStrategy(String field, Comparable<?> value) {
         this.field = field;
+        this.value = value;
     }
 
     @Override
     public Predicate apply(Root<E> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-        return criteriaBuilder.isNull(root.get(field));
+        return criteriaBuilder.greaterThanOrEqualTo(root.get(field), (Comparable) value);
     }
 }

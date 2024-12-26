@@ -1,4 +1,4 @@
-package common.module.jpa.condition.query.strategy;
+package common.module.jpa.condition.strategy;
 
 import common.module.util.model.SerializableFunction;
 import lombok.Getter;

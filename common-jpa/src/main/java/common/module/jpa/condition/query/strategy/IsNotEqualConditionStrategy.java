@@ -1,13 +1,14 @@
-package common.module.jpa.condition.query;
+package common.module.jpa.condition.query.strategy;
 
+import common.module.jpa.condition.query.QueryConditionStrategy;
 import jakarta.persistence.criteria.*;
 
-public class NotEqualConditionStrategy<E> implements QueryConditionStrategy<E> {
+public class IsNotEqualConditionStrategy<E> implements QueryConditionStrategy<E> {
 
     private final String field;
     private final Object value;
 
-    public NotEqualConditionStrategy(String field, Object value) {
+    public IsNotEqualConditionStrategy(String field, Object value) {
         this.field = field;
         this.value = value;
     }

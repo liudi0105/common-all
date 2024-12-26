@@ -1,4 +1,4 @@
-package common.module.jpa.condition.query;
+package common.module.jpa.condition.query.strategy;
 
 import common.module.util.model.SerializableFunction;
 import lombok.Getter;
@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import jakarta.persistence.criteria.*;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -65,7 +67,7 @@ public class QueryBuilder<E> {
     }
 
     // 构建 Specification，用于 JPA 查询
-    public Specification<E> build() {
+    public Specification<E> toSpecification() {
         return (root, query, criteriaBuilder) -> {
             // 应用 distinct
             if (distinct) {
@@ -81,18 +83,17 @@ public class QueryBuilder<E> {
             // 应用排序
             applySorting(query, root, criteriaBuilder);
 
-            // 应用分页
-            applyPagination(query);
-
             // 返回所有条件的组合
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
 
-    // 应用分页，利用Spring Data JPA的Pageable对象来进行分页
-    private void applyPagination(CriteriaQuery<?> query) {
-        if (pageable != null) {
-        }
+    public void queryPage(JpaSpecificationExecutor<E> repository) {
+        repository.findAll(toSpecification(), pageable);
+    }
+
+    public void query(JpaSpecificationExecutor<E> repository) {
+        repository.findAll(toSpecification());
     }
 
     // 应用排序

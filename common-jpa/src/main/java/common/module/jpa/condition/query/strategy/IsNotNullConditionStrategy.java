@@ -1,12 +1,13 @@
-package common.module.jpa.condition.query;
+package common.module.jpa.condition.query.strategy;
 
+import common.module.jpa.condition.query.QueryConditionStrategy;
 import jakarta.persistence.criteria.*;
 
-public class NotNullConditionStrategy<E> implements QueryConditionStrategy<E> {
+public class IsNotNullConditionStrategy<E> implements QueryConditionStrategy<E> {
 
     private final String field;
 
-    public NotNullConditionStrategy(String field) {
+    public IsNotNullConditionStrategy(String field) {
         this.field = field;
     }
 

@@ -1,0 +1,13 @@
+pluginManagement {
+    repositories {
+        maven { url "https://maven.aliyun.com/repository/public" }
+    }
+}
+rootProject.name = 'common'
+
+include "common-dependencies"
+include 'common-util'
+include 'common-jpa'
+include 'common-modal'
+include 'common-webmvc'
+

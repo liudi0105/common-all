@@ -1,0 +1,49 @@
+apply plugin:  'java-library'
+
+dependencies {
+    api platform(project(":common-dependencies"))
+    annotationProcessor platform(project(":common-dependencies"))
+    annotationProcessor "org.projectlombok:lombok"
+    compileOnly "org.projectlombok:lombok"
+    api project(":common-util")
+    api project(":common-jpa")
+    api project(":common-modal")
+    api project(":common-webmvc")
+    api 'org.springframework.boot:spring-boot-starter-mail'
+    api 'org.thymeleaf:thymeleaf'
+    api 'commons-beanutils:commons-beanutils'
+    api 'net.logstash.logback:logstash-logback-encoder:7.4'
+    api "org.apache.poi:poi-ooxml"
+    api "org.apache.poi:poi"
+    api "org.springframework.boot:spring-boot-starter-mail"
+    api 'org.springframework.boot:spring-boot-starter-validation'
+    api 'org.springframework.boot:spring-boot-starter-web'
+    api 'org.springframework.boot:spring-boot-starter-json'
+    compileOnly "io.swagger.core.v3:swagger-annotations-jakarta:2.2.19"
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
+    api 'org.springframework.boot:spring-boot-starter-validation'
+    compileOnly 'org.springframework.boot:spring-boot-starter-web'
+    api 'org.springframework.boot:spring-boot-starter-data-redis'
+    api 'org.springframework.boot:spring-boot-starter-data-jdbc'
+
+    api "org.reflections:reflections"
+    api "org.apache.poi:poi-ooxml"
+    api "org.apache.poi:poi"
+    api 'commons-codec:commons-codec'
+    api 'commons-io:commons-io'
+    api 'org.springframework:spring-core'
+    api 'org.apache.commons:commons-lang3'
+    api 'org.apache.commons:commons-text'
+    api 'org.apache.httpcomponents.client5:httpclient5'
+    api 'org.apache.commons:commons-collections4'
+    api "com.fasterxml.jackson.core:jackson-databind"
+    api "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    api "com.fasterxml.jackson.core:jackson-core"
+    api "com.fasterxml.jackson.core:jackson-annotations"
+    api 'com.google.guava:guava'
+    api 'org.yaml:snakeyaml'
+    api 'com.google.code.gson:gson'
+    api "com.nimbusds:nimbus-jose-jwt"
+    api 'org.apache.commons:commons-text'
+    api 'org.postgresql:postgresql'
+}

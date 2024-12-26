@@ -1,0 +1,15 @@
+apply plugin:  'java-library'
+
+dependencies {
+    api platform(project(":common-dependencies"))
+    annotationProcessor platform(project(":common-dependencies"))
+    api project(":common-util")
+    api project(":common-modal")
+    compileOnly project(":common-webmvc")
+    annotationProcessor "org.projectlombok:lombok"
+    compileOnly "org.projectlombok:lombok"
+    api 'org.springframework.boot:spring-boot-starter-validation'
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
+    api 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    api 'org.postgresql:postgresql'
+}

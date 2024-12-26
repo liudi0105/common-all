@@ -1,0 +1,28 @@
+apply plugin:  'java-library'
+
+dependencies {
+    api platform(project(":common-dependencies"))
+    annotationProcessor platform(project(":common-dependencies"))
+    annotationProcessor "org.projectlombok:lombok"
+    compileOnly "org.projectlombok:lombok"
+    api 'org.thymeleaf:thymeleaf'
+    api 'commons-beanutils:commons-beanutils'
+    api "org.apache.poi:poi-ooxml"
+    api "org.apache.poi:poi"
+    api "org.reflections:reflections"
+    api 'commons-codec:commons-codec'
+    api 'commons-io:commons-io'
+    api 'org.apache.commons:commons-lang3'
+    api 'org.apache.commons:commons-text'
+    api 'org.apache.httpcomponents.client5:httpclient5'
+    api 'org.apache.commons:commons-collections4'
+    api "com.fasterxml.jackson.core:jackson-databind"
+    api "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    api "com.fasterxml.jackson.core:jackson-core"
+    api "com.fasterxml.jackson.core:jackson-annotations"
+    api 'com.google.guava:guava'
+    api 'org.yaml:snakeyaml'
+    api 'com.google.code.gson:gson'
+    api "com.nimbusds:nimbus-jose-jwt"
+    api 'org.apache.commons:commons-text'
+}

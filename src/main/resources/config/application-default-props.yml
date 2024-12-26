@@ -1,0 +1,5 @@
+app:
+  api-prefix: /api
+  page-prefix: /
+  api-url: ${app.domain}${app.api-prefix}
+  page-url: ${app.domain}${app.page-prefix}

@@ -5,6 +5,7 @@ import common.module.jpa.AppPageResult;
 import common.module.jpa.AppPages;
 import common.module.jpa.SqlBuilder;
 import common.module.jpa.condition.strategy.QueryBuilder;
+import common.module.util.AppBeans;
 import common.module.util.AppJsons;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -74,9 +75,32 @@ public class QueryManagerImpl implements QueryManager {
         return entityManager.createQuery(countQuery).getSingleResult();
     }
 
-    public <E extends AppJpaEntity> List<E> query(QueryBuilder<E> queryBuilder, Class<E> clazz) {
+    @Override
+    public <E> List<E> query(QueryBuilder<E> queryBuilder, Class<E> clazz) {
         CriteriaQuery<E> criteriaQuery = buildQuery(queryBuilder, clazz).getCriteriaQuery();
         return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public <E, D> List<D> query(QueryBuilder<E> queryBuilder, Class<E> clazz, Class<D> toClazz) {
+        return AppBeans.convertList(query(queryBuilder, clazz), toClazz);
+    }
+
+    @Override
+    public <E, D> AppPageResult<D> queryPage(QueryBuilder<E> queryBuilder, Class<E> clazz, Class<D> toClazz) {
+        return queryPage(queryBuilder, clazz)
+                .map(v -> AppBeans.convert(v, toClazz));
+    }
+
+    @Override
+    public <E> AppPageResult<E> queryPage(QueryBuilder<E> queryBuilder, Class<E> clazz) {
+        List<E> d = entityManager.createQuery(buildPageQuery(queryBuilder, clazz))
+                .setFirstResult((int) queryBuilder.getPageable().getOffset())
+                .setMaxResults(queryBuilder.getPageable().getPageSize())
+                .getResultList();
+
+        Long l = countTotal(queryBuilder, clazz);
+        return AppPageResult.of(l, d);
     }
 
     @Getter
@@ -86,6 +110,52 @@ public class QueryManagerImpl implements QueryManager {
         private Root<E> root;
         private CriteriaBuilder criteriaBuilder;
         private Specification<E> specification;
+    }
+
+    @Override
+    public <E> E queryOne(QueryBuilder<E> queryBuilder, Class<E> clazz) {
+        return entityManager.createQuery(buildPageQuery(queryBuilder, clazz))
+                .getSingleResult();
+    }
+
+    @Override
+    public <E, D> D queryOne(QueryBuilder<E> queryBuilder, Class<E> clazz, Class<D> toClazz) {
+        return AppBeans.convert(queryOne(queryBuilder, clazz), toClazz);
+    }
+
+    private <E> Long countTotal(QueryBuilder<E> queryBuilder, Class<E> clazz) {
+        // 构建 Specification
+        Specification<E> specification = queryBuilder.toSpecification();
+
+        // 获取 CriteriaBuilder 和 CriteriaQuery
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
+
+        // 根实体
+        Root<E> root = criteriaQuery.from(clazz);
+
+        // 将 Specification 应用到 CriteriaQuery 上
+        Predicate predicate = specification.toPredicate(root, criteriaQuery, criteriaBuilder);
+        criteriaQuery.select(criteriaBuilder.count(root));
+        criteriaQuery.where(predicate);
+        return entityManager.createQuery(criteriaQuery).getSingleResult();
+    }
+
+    private <E> CriteriaQuery<E> buildPageQuery(QueryBuilder<E> queryBuilder, Class<E> clazz) {
+        // 构建 Specification
+        Specification<E> specification = queryBuilder.toSpecification();
+
+        // 获取 CriteriaBuilder 和 CriteriaQuery
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<E> criteriaQuery = criteriaBuilder.createQuery(clazz);
+
+        // 根实体
+        Root<E> root = criteriaQuery.from(clazz);
+
+        // 将 Specification 应用到 CriteriaQuery 上
+        Predicate predicate = specification.toPredicate(root, criteriaQuery, criteriaBuilder);
+        criteriaQuery.where(predicate);
+        return criteriaQuery;
     }
 
     private <E> Wrapper<E> buildQuery(QueryBuilder<E> queryBuilder, Class<E> clazz) {

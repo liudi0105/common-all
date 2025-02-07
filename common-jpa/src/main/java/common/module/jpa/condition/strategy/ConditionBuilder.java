@@ -24,7 +24,7 @@ public class ConditionBuilder<E> {
      */
     public <V> ConditionBuilder<E> in(SerializableFunction<E, V> function, Collection<V> values) {
         this.field = StringUtils.capitalize(AppReflections.getFieldName(function)); // 获取字段名
-        this.values = (List<?>) values; // 将 Collection 转换为 List
+        this.values = values; // 将 Collection 转换为 List
         this.strategy = new InConditionStrategy<>(this.field, this.values);
         return this;
     }
@@ -43,9 +43,9 @@ public class ConditionBuilder<E> {
      * 构造等于条件，支持 List 类型的多个值
      */
     public <V> ConditionBuilder<E> eq(SerializableFunction<E, V> function, V value) {
-        this.field = StringUtils.capitalize(AppReflections.getFieldName(function)); // 获取字段名
+        this.field = AppReflections.getFieldName(function); // 获取字段名
         this.values = List.of(value); // 将单个值包装成 List
-        this.strategy = new EqualConditionStrategy<>(this.field, this.values);
+        this.strategy = new EqualConditionStrategy<>(this.field, this.values.iterator());
         return this;
     }
 
@@ -53,7 +53,7 @@ public class ConditionBuilder<E> {
      * 构造 NOT EQUAL 条件
      */
     public <V> ConditionBuilder<E> notEq(SerializableFunction<E, V> function, V value) {
-        this.field = StringUtils.capitalize(AppReflections.getFieldName(function)); // 获取字段名
+        this.field = AppReflections.getFieldName(function); // 获取字段名
         this.values = List.of(value);
         this.strategy = new IsNotEqualConditionStrategy<>(this.field, this.values);
         return this;
@@ -63,7 +63,7 @@ public class ConditionBuilder<E> {
      * 构造 LIKE 条件
      */
     public <V> ConditionBuilder<E> like(SerializableFunction<E, V> function, String value) {
-        this.field = StringUtils.capitalize(AppReflections.getFieldName(function)); // 获取字段名
+        this.field = AppReflections.getFieldName(function); // 获取字段名
         this.values = List.of(value); // 将 LIKE 字符串值包装成 List
         this.strategy = new LikeConditionStrategy<>(this.field, value);
         return this;
@@ -73,7 +73,7 @@ public class ConditionBuilder<E> {
      * 构造 LIKE 忽略大小写条件
      */
     public <V> ConditionBuilder<E> likeIgnoreCase(SerializableFunction<E, V> function, String value) {
-        this.field = StringUtils.capitalize(AppReflections.getFieldName(function)); // 获取字段名
+        this.field = AppReflections.getFieldName(function); // 获取字段名
         this.values = List.of(value.toLowerCase()); // 将 LIKE 字符串值包装成 List
         this.strategy = new LikeIgnoreCaseConditionStrategy<>(this.field, value);
         return this;
@@ -83,7 +83,7 @@ public class ConditionBuilder<E> {
      * 构造 BETWEEN 条件，支持 List 类型，包含两个范围值
      */
     public <V extends Comparable<V>> ConditionBuilder<E> between(SerializableFunction<E, V> function, V start, V end) {
-        this.field = StringUtils.capitalize(AppReflections.getFieldName(function)); // 获取字段名
+        this.field = AppReflections.getFieldName(function); // 获取字段名
         this.values = List.of(start, end); // 将 start 和 end 包装成 List
         this.strategy = new BetweenConditionStrategy<>(this.field, start, end);
         return this;

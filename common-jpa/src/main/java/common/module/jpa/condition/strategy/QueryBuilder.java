@@ -1,8 +1,10 @@
 package common.module.jpa.condition.strategy;
 
+import common.module.util.AppReflections;
 import common.module.util.model.SerializableFunction;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -51,6 +53,11 @@ public class QueryBuilder<E> {
     // 设置分页
     public QueryBuilder<E> page(int pageIndex, int pageSize) {
         this.pageable = PageRequest.of(pageIndex - 1, pageSize);  // PageIndex从1开始
+        return this;
+    }
+
+    public QueryBuilder<E> orderBy(SerializableFunction<E, ?> field) {
+        this.sort = Sort.by(AppReflections.findFieldName(field));
         return this;
     }
 

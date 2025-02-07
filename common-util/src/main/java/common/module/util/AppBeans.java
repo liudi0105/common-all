@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.beanutils.PropertyUtils;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -97,12 +98,11 @@ public class AppBeans {
      */
     public static <T> T copyNonNullField(Object source, T target) {
         try {
-            String[] nullProps = nullPropArray(source);
-            PropertyUtils.copyProperties(target, source);
-
+            String[] nullProps = nonNullPropArray(source);
             // 重置 null 属性
-            for (String nullProp : nullProps) {
-                PropertyUtils.setProperty(target, nullProp, null);
+            for (String propName : nullProps) {
+                Object property = PropertyUtils.getProperty(source, propName);
+                PropertyUtils.setProperty(target, propName, property);
             }
             return target;
         } catch (Exception e) {

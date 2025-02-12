@@ -2,15 +2,13 @@ package common.module.jpa.condition.strategy;
 
 import common.module.util.AppReflections;
 import common.module.util.model.SerializableFunction;
+import jakarta.persistence.criteria.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-
-import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.ArrayList;
@@ -21,10 +19,16 @@ import java.util.List;
 @Setter
 public class QueryBuilder<E> {
 
+    private final Class<E> clazz;
+
     private List<ConditionBuilder<E>> conditions = new ArrayList<>();  // 存储所有的条件
     private boolean distinct = false;  // 是否使用 DISTINCT
     private Pageable pageable;  // 分页
     private Sort sort;  // 排序
+
+    public QueryBuilder(Class<E> clazz) {
+        this.clazz = clazz;
+    }
 
     // 添加等于条件
     public <V> QueryBuilder<E> eq(SerializableFunction<E, V> function, V value) {

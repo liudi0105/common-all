@@ -88,7 +88,7 @@ public class QueryManagerImpl implements QueryManager {
 
     @Override
     public <E, D> AppPageResult<D> queryPage(QueryBuilder<E> queryBuilder, Class<D> toClazz) {
-        return queryPage(queryBuilder, queryBuilder.getClazz())
+        return queryPage(queryBuilder)
                 .map(v -> AppBeans.convert(v, toClazz));
     }
 

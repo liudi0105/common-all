@@ -61,13 +61,7 @@ public class QueryBuilder<E> {
     }
 
     public QueryBuilder<E> orderBy(SerializableFunction<E, ?> field) {
-        this.sort = Sort.by(AppReflections.findFieldName(field));
-        return this;
-    }
-
-    // 设置排序
-    public QueryBuilder<E> sort(Sort sort) {
-        this.sort = sort;
+        this.sort = Sort.by(AppReflections.findFieldName(field)).descending();
         return this;
     }
 

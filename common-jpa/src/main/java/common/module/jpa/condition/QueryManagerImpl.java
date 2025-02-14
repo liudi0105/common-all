@@ -83,7 +83,8 @@ public class QueryManagerImpl implements QueryManager {
 
     @Override
     public <E, D> List<D> query(QueryBuilder<E> queryBuilder, Class<D> toClazz) {
-        return AppBeans.convertList(query(queryBuilder, queryBuilder.getClazz()), toClazz);
+        List<E> query = query(queryBuilder);
+        return AppBeans.convertList(query, toClazz);
     }
 
     @Override

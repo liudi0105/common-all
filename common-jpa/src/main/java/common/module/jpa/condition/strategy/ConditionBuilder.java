@@ -13,7 +13,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Accessors(chain = true)
 public class ConditionBuilder<E> {
 
     private String field;  // 字段名称
@@ -45,7 +44,7 @@ public class ConditionBuilder<E> {
     public <V> ConditionBuilder<E> eq(SerializableFunction<E, V> function, V value) {
         this.field = AppReflections.getFieldName(function); // 获取字段名
         this.values = List.of(value); // 将单个值包装成 List
-        this.strategy = new EqualConditionStrategy<>(this.field, this.values.iterator());
+        this.strategy = new EqualConditionStrategy<>(this.field, value);
         return this;
     }
 
@@ -55,7 +54,7 @@ public class ConditionBuilder<E> {
     public <V> ConditionBuilder<E> notEq(SerializableFunction<E, V> function, V value) {
         this.field = AppReflections.getFieldName(function); // 获取字段名
         this.values = List.of(value);
-        this.strategy = new IsNotEqualConditionStrategy<>(this.field, this.values);
+        this.strategy = new IsNotEqualConditionStrategy<>(this.field, value);
         return this;
     }
 

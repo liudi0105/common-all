@@ -3,8 +3,7 @@ package common.module.jpa;
 import common.module.util.AppJsons;
 import common.module.util.AppReflections;
 import common.module.util.model.SerializableFunction;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +17,8 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@Accessors(chain = true)
+@Builder
+@AllArgsConstructor
 public class ConditionBuilder<E> {
 
     private String field;
@@ -80,9 +80,10 @@ public class ConditionBuilder<E> {
     }
 
     private ConditionBuilder<E> ofField(Type type, String field) {
-        return new ConditionBuilder<E>()
-                .setType(type)
-                .setField(field);
+        return ConditionBuilder.<E>builder()
+                .type(type)
+                .field(field)
+                .build();
     }
 
     private <V> ConditionBuilder<E> ofTuple3(Type type, SerializableFunction<E, V> function, V v1, V v2) {
@@ -90,10 +91,11 @@ public class ConditionBuilder<E> {
     }
 
     private ConditionBuilder<E> ofTuple3(Type type, String field, Object arg1, Object arg2) {
-        return new ConditionBuilder<E>()
-                .setType(type)
-                .setField(field)
-                .setArgs(List.of(arg1, arg2));
+        return ConditionBuilder.<E>builder()
+                .type(type)
+                .field(field)
+                .args(List.of(arg1, arg2))
+                .build();
     }
 
     private ConditionBuilder<E> ofTuple2(Type type, SerializableFunction<E, ?> function, Object value) {
@@ -101,10 +103,11 @@ public class ConditionBuilder<E> {
     }
 
     private ConditionBuilder<E> ofTuple2(Type type, String field, Object value) {
-        return new ConditionBuilder<E>()
-                .setType(type)
-                .setField(field)
-                .setArgs(List.of(value));
+        return ConditionBuilder.<E>builder()
+                .type(type)
+                .field(field)
+                .args(List.of(value))
+                .build();
     }
 
     public <V> ConditionBuilder<E> in(SerializableFunction<E, V> function, Collection<V> value) {

@@ -7,7 +7,6 @@ import lombok.experimental.Accessors;
 
 @Getter
 @Setter
-@Accessors(chain = true)
 @NoArgsConstructor
 public class AppPageParam {
     private Integer pageSize;

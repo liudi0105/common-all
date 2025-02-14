@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @Setter
-@Accessors(chain = true)
 public class AppWebRequest {
     @Autowired
     private HttpServletRequest request;

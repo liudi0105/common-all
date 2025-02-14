@@ -57,8 +57,9 @@ public class QueryBuilder<E> {
                 .filter(v -> !v.getType().equals(ConditionBuilder.Type.EMPTY_CONDITION))
                 .collect(Collectors.toList());
 
-        ConditionBuilder<E> conditionBuilder = new ConditionBuilder<E>()
-                .setType(ConditionBuilder.Type.OR);
+        ConditionBuilder<E> conditionBuilder = ConditionBuilder.<E>builder()
+                .type(ConditionBuilder.Type.OR)
+                .build();
 
         if (collect.isEmpty()) {
             return new ConditionBuilder<>();
@@ -76,8 +77,9 @@ public class QueryBuilder<E> {
                 .filter(v -> !v.getType().equals(ConditionBuilder.Type.EMPTY_CONDITION))
                 .collect(Collectors.toList());
 
-        ConditionBuilder<E> conditionBuilder = new ConditionBuilder<E>()
-                .setType(ConditionBuilder.Type.AND);
+        ConditionBuilder<E> conditionBuilder = ConditionBuilder.<E>builder()
+                .type(ConditionBuilder.Type.AND)
+                .build();
 
         if (collect.isEmpty()) {
             return new ConditionBuilder<>();

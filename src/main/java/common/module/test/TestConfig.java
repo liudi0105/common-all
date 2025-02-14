@@ -6,7 +6,6 @@ import lombok.experimental.Accessors;
 
 @Getter
 @Setter
-@Accessors(chain = true)
 public class TestConfig {
     private String apiUrl;
 }

@@ -2,13 +2,11 @@ package common.module.webmvc;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 
 import java.util.Set;
 
 @Getter
 @Setter
-@Accessors(chain = true)
 public class CurrentUser {
     private String sessionId;
     private String nameEn;

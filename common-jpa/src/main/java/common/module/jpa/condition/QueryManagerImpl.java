@@ -90,7 +90,7 @@ public class QueryManagerImpl implements QueryManager {
     @Override
     public <E, D> AppPageResult<D> queryPage(QueryBuilder<E> queryBuilder, Class<D> toClazz) {
         return queryPage(queryBuilder)
-                .map(v -> AppBeans.convert(v, toClazz));
+                .map(v -> AppJsons.convert(v, toClazz));
     }
 
     @Override
@@ -121,7 +121,7 @@ public class QueryManagerImpl implements QueryManager {
 
     @Override
     public <E, D> D queryOne(QueryBuilder<E> queryBuilder, Class<D> toClazz) {
-        return AppBeans.convert(queryOne(queryBuilder), toClazz);
+        return AppJsons.convert(queryOne(queryBuilder), toClazz);
     }
 
     private <E> Long countTotal(QueryBuilder<E> queryBuilder) {

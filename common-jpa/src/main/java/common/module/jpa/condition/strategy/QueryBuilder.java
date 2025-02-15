@@ -32,7 +32,9 @@ public class QueryBuilder<E> {
 
     // 添加等于条件
     public <V> QueryBuilder<E> eq(SerializableFunction<E, V> function, V value) {
-        conditions.add(new ConditionBuilder<E>().eq(function, value));
+        if (value != null) {
+            conditions.add(new ConditionBuilder<E>().eq(function, value));
+        }
         return this;
     }
 

@@ -5,6 +5,8 @@ import common.module.util.model.SerializableFunction;
 import jakarta.persistence.criteria.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -40,7 +42,10 @@ public class QueryBuilder<E> {
 
     // 添加 LIKE 查询条件
     public <V> QueryBuilder<E> like(SerializableFunction<E, V> function, String value) {
-        conditions.add(new ConditionBuilder<E>().like(function, value));
+        if(StringUtils.isNotEmpty(value)){
+            conditions.add(new ConditionBuilder<E>().like(function, value));
+        }
+
         return this;
     }
 
@@ -52,7 +57,9 @@ public class QueryBuilder<E> {
 
     // 添加 IN 条件
     public <V> QueryBuilder<E> in(SerializableFunction<E, V> field, Collection<V> values) {
-        conditions.add(new ConditionBuilder<E>().<V>in(field, values));
+        if(CollectionUtils.isNotEmpty(values)){
+            conditions.add(new ConditionBuilder<E>().<V>in(field, values));
+        }
         return this;
     }
 

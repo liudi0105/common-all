@@ -22,7 +22,7 @@ public class ConditionBuilder<E> {
      * 构造 IN 条件
      */
     public <V> ConditionBuilder<E> in(SerializableFunction<E, V> function, Collection<V> values) {
-        this.field = StringUtils.capitalize(AppReflections.getFieldName(function)); // 获取字段名
+        this.field = AppReflections.getFieldName(function); // 获取字段名
         this.values = values; // 将 Collection 转换为 List
         this.strategy = new InConditionStrategy<>(this.field, this.values);
         return this;

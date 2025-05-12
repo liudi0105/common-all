@@ -67,28 +67,9 @@ public class WebMvcConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public AppCookies appCookieUtils() {
-        return new AppCookies();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
     public RestTemplate restTemplate() {
         return AppWebClient.newRestTemplate();
     }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public AppWebRequest appWebRequest() {
-        return new AppWebRequest();
-    }
-
-//    @Bean
-//    @RequestScope
-//    @ConditionalOnMissingBean
-//    public CurrentUser currentUser() {
-//        return new CurrentUser();
-//    }
 
     @Bean
     public AppExceptionHandler appExceptionHandler() {

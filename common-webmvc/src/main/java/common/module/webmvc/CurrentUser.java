@@ -13,9 +13,11 @@ public class CurrentUser {
     private String token;
     private String username;
     private String email;
-    private String userId;
+    private Long userId;
     private String timezone;
     private Boolean oauthLogin;
     private Set<String> roleCodes;
     private Set<String> permissionCodes;
+    private String securityPassCookie;
+    private String securityUidCookie;
 }

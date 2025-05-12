@@ -16,20 +16,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @ConditionalOnWebApplication
 public class AppExceptionHandler {
 
-    @Autowired
-    private AppWebRequest appWebRequest;
-
     @ExceptionHandler(value = AppError.class)
     public ErrorResp handleAppError(AppError e) {
         log.error(e.getMsg(), e);
-            appWebRequest.setResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        AppSessionUtil.setResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         return new ErrorResp(e);
     }
 
     @ExceptionHandler(value = AppWarning.class)
     public ErrorResp handleAppWarning(AppWarning e) {
         log.warn(e.getMsg(), e);
-            appWebRequest.setResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        AppSessionUtil.setResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         return new ErrorResp(e);
     }
 }

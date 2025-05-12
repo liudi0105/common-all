@@ -5,7 +5,6 @@ import common.module.jpa.AppPageResult;
 import common.module.jpa.AppPages;
 import common.module.jpa.SqlBuilder;
 import common.module.jpa.condition.strategy.QueryBuilder;
-import common.module.util.AppBeans;
 import common.module.util.AppJsons;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;

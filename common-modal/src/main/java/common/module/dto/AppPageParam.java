@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AppPageParam {
-    private Integer pageSize;
-    private Integer pageIndex;
+    private Integer pageSize = 10;
+    private Integer pageIndex = 1;
     private String orderBy;
     private Boolean asc;
 
